@@ -29,4 +29,9 @@ public class AssetsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_assets, container, false);
         return view;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }
