@@ -34,6 +34,12 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.AssetViewH
         this.assets = assets;
     }
 
+    public void swap(List<Asset> assetList) {
+        assets.clear();
+        assets.addAll(assetList);
+        notifyDataSetChanged();
+    }
+
     @Override
     public AssetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_item, parent, false);

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 public class ChartFragment extends Fragment {
 
-    public static final String TAG = "ChartFragment";
+    private static final String TAG = ChartFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
