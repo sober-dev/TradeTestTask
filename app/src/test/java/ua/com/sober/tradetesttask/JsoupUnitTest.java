@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.com.sober.tradetesttask.models.Asset;
+
 /**
  * Created by dmitry on 11/28/16.
  */

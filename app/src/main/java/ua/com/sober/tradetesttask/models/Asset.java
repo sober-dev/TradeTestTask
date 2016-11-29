@@ -1,4 +1,4 @@
-package ua.com.sober.tradetesttask;
+package ua.com.sober.tradetesttask.models;
 
 
 /**
