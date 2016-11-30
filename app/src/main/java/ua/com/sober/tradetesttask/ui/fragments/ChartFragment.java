@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -73,26 +74,40 @@ public class ChartFragment extends Fragment {
 
         plot = (XYPlot) view.findViewById(R.id.plot);
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
         parseTimer = new Timer();
         ParseTimerTask parseTimerTask = new ParseTimerTask();
         parseTimer.schedule(parseTimerTask, 0, 1000);
+
+        Button buttonNext = (Button) view.findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (position < assetList.size() - 1) {
+                    position++;
+                    currentRateList.clear();
+                    timeLine.clear();
+                }
+            }
+        });
+
+        Button buttonPrevious = (Button) view.findViewById(R.id.button_previous);
+        buttonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (position > 0) {
+                    position--;
+                    currentRateList.clear();
+                    timeLine.clear();
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
         if (parseTimer != null) {
             parseTimer.cancel();
         }

@@ -3,10 +3,7 @@ package ua.com.sober.tradetesttask.ui.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.List;
-
 import ua.com.sober.tradetesttask.R;
-import ua.com.sober.tradetesttask.models.Asset;
 import ua.com.sober.tradetesttask.ui.fragments.AssetsFragment;
 
 public class MainActivity extends AppCompatActivity {

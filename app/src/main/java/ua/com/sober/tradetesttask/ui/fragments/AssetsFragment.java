@@ -54,26 +54,16 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
         recyclerView.setAdapter(adapter);
         adapter.setRecyclerItemClickListener(this);
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
         parseTimer = new Timer();
         ParseTimerTask parseTimerTask = new ParseTimerTask();
         parseTimer.schedule(parseTimerTask, 0, 1000);
+
+        return view;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
         if (parseTimer != null) {
             parseTimer.cancel();
         }
