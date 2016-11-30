@@ -46,7 +46,7 @@ public class AssetsParser {
                         asset.setCurrentRateString(asset.getCurrentRateString() + "<big><b>" + rateStringElement.text() + "</b></big>");
                         break;
                     case "small":
-                        asset.setCurrentRateString(asset.getCurrentRateString() + "<sup><small>" + rateStringElement.text() + "</small></sup>");
+                        asset.setCurrentRateString(asset.getCurrentRateString() + "<sup>" + rateStringElement.text() + "</sup>");
                         break;
                     default:
                         break;

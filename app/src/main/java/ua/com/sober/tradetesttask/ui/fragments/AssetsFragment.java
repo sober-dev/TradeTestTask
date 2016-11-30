@@ -37,10 +37,16 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_assets, container, false);
 
         assetList = new ArrayList<>();
         adapter = new AssetsAdapter(assetList);
-        RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.assets_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.assets_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setRecyclerItemClickListener(this);
@@ -48,12 +54,8 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
         // Only for test load data
         ParseDataTask parseDataTask = new ParseDataTask();
         parseDataTask.execute();
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_assets, container, false);
+        return view;
     }
 
     @Override
@@ -63,12 +65,11 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
 
     @Override
     public void onItemClickListener(int position) {
-        navigateToChartFragment(assetList.get(position));
+        navigateToChartFragment(position);
     }
 
-    private void navigateToChartFragment(Asset asset) {
+    private void navigateToChartFragment(int position) {
         ChartFragment chartFragment = new ChartFragment();
-
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, chartFragment);
         transaction.addToBackStack(null);
