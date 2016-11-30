@@ -4,6 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_asset_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="ASSETS" />
+
+        <TextView
+            android:id="@+id/tv_current_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CURRENT RATE" />
+
+        <TextView
+            android:id="@+id/tv_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CHANGE" />
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/assets_recycler_view"
         android:layout_width="match_parent"

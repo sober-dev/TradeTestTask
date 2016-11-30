@@ -30,6 +30,7 @@ import ua.com.sober.tradetesttask.util.AssetsParser;
 public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerItemClickListener {
 
     private static final String TAG = AssetsFragment.class.getSimpleName();
+
     private AssetsAdapter adapter;
     private List<Asset> assetList;
 
@@ -63,6 +64,11 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
         parseTimer = new Timer();
         ParseTimerTask parseTimerTask = new ParseTimerTask();
         parseTimer.schedule(parseTimerTask, 0, 1000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
