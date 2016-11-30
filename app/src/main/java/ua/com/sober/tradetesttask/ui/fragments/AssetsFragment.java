@@ -2,7 +2,6 @@ package ua.com.sober.tradetesttask.ui.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +14,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ua.com.sober.tradetesttask.R;
 import ua.com.sober.tradetesttask.models.Asset;
@@ -33,10 +33,14 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
     private AssetsAdapter adapter;
     private List<Asset> assetList;
 
+    private Timer parseTimer;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        adapter = new AssetsAdapter();
     }
 
     @Nullable
@@ -44,23 +48,29 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_assets, container, false);
 
-        assetList = new ArrayList<>();
-        adapter = new AssetsAdapter(assetList);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.assets_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setRecyclerItemClickListener(this);
 
-        // Only for test load data
-        ParseDataTask parseDataTask = new ParseDataTask();
-        parseDataTask.execute();
-
         return view;
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStart() {
+        super.onStart();
+
+        parseTimer = new Timer();
+        ParseTimerTask parseTimerTask = new ParseTimerTask();
+        parseTimer.schedule(parseTimerTask, 0, 1000);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (parseTimer != null) {
+            parseTimer.cancel();
+        }
     }
 
     @Override
@@ -76,14 +86,10 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
         transaction.commit();
     }
 
-    private class ParseDataTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    private class ParseTimerTask extends TimerTask {
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        public void run() {
             Document document = null;
             try {
                 document = Jsoup.connect("https://trade.opteck.com/trade/iframe?view=table").get();
@@ -93,13 +99,13 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
             if (document != null) {
                 assetList = AssetsParser.parse(document);
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            adapter.swap(assetList);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.swap(assetList);
+                }
+            });
         }
     }
 }

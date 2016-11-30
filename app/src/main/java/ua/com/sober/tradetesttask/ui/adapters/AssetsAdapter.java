@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ua.com.sober.tradetesttask.R;
@@ -28,6 +29,10 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.AssetViewH
 
     public void setRecyclerItemClickListener(RecyclerItemClickListener recyclerItemClickListener) {
         this.recyclerItemClickListener = recyclerItemClickListener;
+    }
+
+    public AssetsAdapter() {
+        assets = new ArrayList<>();
     }
 
     public AssetsAdapter(List<Asset> assets) {
@@ -64,7 +69,10 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.AssetViewH
 
         holder.changeTextView.setText(asset.getChange());
 
-        if (!asset.isEnabled()) {
+        if (asset.isEnabled()) {
+            holder.assetNameTextView.setTextColor(Color.BLACK);
+            holder.changeTextView.setTextColor(Color.BLACK);
+        } else {
             holder.assetNameTextView.setTextColor(Color.LTGRAY);
             holder.currentRateTextView.setTextColor(Color.LTGRAY);
             holder.changeTextView.setTextColor(Color.LTGRAY);
