@@ -86,6 +86,10 @@ public class AssetsFragment extends Fragment implements AssetsAdapter.RecyclerIt
 
     private void navigateToChartFragment(int position) {
         ChartFragment chartFragment = new ChartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        chartFragment.setArguments(bundle);
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, chartFragment);
         transaction.addToBackStack(null);

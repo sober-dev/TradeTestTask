@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYGraphWidget;
@@ -19,6 +20,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -46,6 +48,7 @@ public class ChartFragment extends Fragment {
     private List<Asset> assetList;
     private List<Float> currentRateList;
     private List<Long> timeLine;
+    private int position;
 
     private Timer parseTimer;
 
@@ -54,7 +57,13 @@ public class ChartFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            position = bundle.getInt("position", -1);
+        }
+
         currentRateList = new ArrayList<>();
+        timeLine = new ArrayList<>();
     }
 
     @Nullable
@@ -90,7 +99,7 @@ public class ChartFragment extends Fragment {
     }
 
     private void graph() {
-        XYSeries rateSeries = new SimpleXYSeries(currentRateList, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Current rate");
+        XYSeries rateSeries = new SimpleXYSeries(timeLine, currentRateList, "Current rate");
 
         // setup our line fill paint to be a slightly transparent gradient:
         Paint lineFill = new Paint();
@@ -100,6 +109,9 @@ public class ChartFragment extends Fragment {
         formatter.setFillPaint(lineFill);
         plot.addSeries(rateSeries, formatter);
 
+        plot.setTitle(assetList.get(position).getName());
+//        plot.setRangeBoundaries(0, 100000, BoundaryMode.AUTO);
+//        plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#.#####"));
         plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
             private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
@@ -118,7 +130,8 @@ public class ChartFragment extends Fragment {
     }
 
     private void updateCurrentRate() {
-        currentRateList.add(assetList.get(0).getCurrentRate());
+        timeLine.add(System.currentTimeMillis());
+        currentRateList.add(assetList.get(position).getCurrentRate());
     }
 
     private class ParseTimerTask extends TimerTask {

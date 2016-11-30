@@ -10,8 +10,6 @@
         android:id="@+id/plot"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        ap:rangeTitle="current rate"
-        ap:domainTitle="time"
         ap:lineLabels="left|bottom"
         ap:lineLabelRotationBottom="-45"/>
 
