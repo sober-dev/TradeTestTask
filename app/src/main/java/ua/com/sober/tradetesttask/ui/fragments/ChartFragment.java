@@ -74,10 +74,6 @@ public class ChartFragment extends Fragment {
 
         plot = (XYPlot) view.findViewById(R.id.plot);
 
-        parseTimer = new Timer();
-        ParseTimerTask parseTimerTask = new ParseTimerTask();
-        parseTimer.schedule(parseTimerTask, 0, 1000);
-
         Button buttonNext = (Button) view.findViewById(R.id.button_next);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,10 +102,19 @@ public class ChartFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        parseTimer = new Timer();
+        ParseTimerTask parseTimerTask = new ParseTimerTask();
+        parseTimer.schedule(parseTimerTask, 0, 1000);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         if (parseTimer != null) {
             parseTimer.cancel();
+            parseTimer = null;
         }
     }
 
