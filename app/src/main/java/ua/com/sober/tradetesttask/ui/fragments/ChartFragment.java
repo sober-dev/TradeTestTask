@@ -160,7 +160,7 @@ public class ChartFragment extends Fragment {
         public void run() {
             Document document = null;
             try {
-                document = Jsoup.connect("https://trade.opteck.com/trade/iframe?view=table").get();
+                document = Jsoup.connect(AssetsParser.ASSETS_URL).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }

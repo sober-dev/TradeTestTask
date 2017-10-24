@@ -14,6 +14,8 @@ import ua.com.sober.tradetesttask.models.Asset;
  */
 
 public class AssetsParser {
+    public static final String ASSETS_URL = "https://trade.tradeinvest90.com/trade/iframe?view=table";
+
     public static List<Asset> parse(Document document) {
         List<Asset> assetList = new ArrayList<>();
 
